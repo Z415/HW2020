@@ -20,3 +20,21 @@ body{
      font-size: 1.2em;
      padding: 2px 5px;
  }
+
+ .todo-items{
+     padding: 5px 20px;
+ }
+
+ .todo-items > .task  {
+     display: flex;
+ }
+
+ .todo-items > .task > label{
+     flex-grow: 1;
+ }
+
+ .task.done > label {
+     text-decoration: line-through;
+
+
+ }

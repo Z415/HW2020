@@ -8,12 +8,12 @@ function renderEditor(){
  //    //console.log("input change:",e);
 // };
 
-let addTask = ()=>{
-    let newTask ={
+let addTask = ()=> {
+    let newTask = {
         title: inputEl.value,
         done: false,
     };
-    inputEl.value ="";
+    inputEl.value = "";
   
     tasks.push(newTask);
     
@@ -21,7 +21,7 @@ let addTask = ()=>{
   
     renderTaskItems();
 
-}
+};
 
 
 inputEl.onkeypress = (e) => {
@@ -34,24 +34,41 @@ inputEl.onkeypress = (e) => {
 let addEl = document.querySelector("#default-todo-panel .todo-editor > button");
 addEl.onclick =(e) => {
   addTask();
-  
-};
+  };
 
 }
+
 function renderTaskItems(){
     console.log("render items");
   let itemsEl =  document.querySelector("#default-todo-panel .todo-items");
 
-  itemsEl.querySelectorAll("div").forEach((Node)=>Node.remove());
+  itemsEl.querySelectorAll("div").forEach((node)=>node.remove());
 
 
   for (let  i= 0; i< tasks.length; i++ ){
       let task = tasks[i];
       let itemEl = document.createElement("div");
+      itemsEl.className = "task";
 
 
       let doneEl = document.createElement("input");
       doneEl.type = "checkbox";
+      doneEl.checked = task.done;
+      if (task.done){
+          itemEl.classList.add("done");
+      }else{
+        itemEl.classList.remove("done");
+      }
+      doneEl.onchange =(e) =>{
+           task.done = e.target.checked;
+           if (task.done){
+               itemEl.classList.add("done");
+           }else{
+               itemEl.classList.remove("done");
+           }
+        
+         
+      }
       itemEl.append(doneEl);
 
       let titleEl = document.createElement("label");
