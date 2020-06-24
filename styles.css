@@ -1,7 +1,22 @@
 
-
+body{
+    display: flex;
+    justify-content: center;
+}
 
  .todo-panel{
      width: 30em;
-     border: 1px solid #eeeeee ;
+     border: 1px solid #eee ;
+     min-height: 20em;
+     box-shadow: 4px 6px 6px #888;
+     margin-top: 5em;
 }
+.todo-editor{
+    padding: 5px 20px;
+    display: flex;
+}
+ .todo-editor input{
+     flex-grow: 1;
+     font-size: 1.2em;
+     padding: 2px 5px;
+ }
