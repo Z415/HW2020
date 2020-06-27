@@ -2,53 +2,58 @@
 let tasks = [];//{title:"dddddd",done :false}
 
 function renderEditor(){
- let inputEl =  document.querySelector("#default-todo-panel .todo-editor > input");
+   let inputEl =  document.querySelector("#default-todo-panel .todo-editor > input");
  //inputEl.onchange = (e) => {
  //    console.log("text,",e.target.value);
  //    //console.log("input change:",e);
 // };
 
-let addTask = ()=> {
-    let newTask = {
-        title: inputEl.value,
-        done: false,
-    };
-    inputEl.value = "";
+   let addTask = () => {
+       if (inputEl.value.length === 0){
+           return;
+       };
+
+       let newTask = {
+           title: inputEl.value,
+           done: false,
+       };
+
+       inputEl.value = "";
   
-    tasks.push(newTask);
+       tasks.push(newTask);
     
-    console.log("tasks: ",tasks);
+       console.log("tasks: ",tasks);
   
-    renderTaskItems();
+       renderTaskItems();
 
-};
+    };
 
 
-inputEl.onkeypress = (e) => {
+    inputEl.onkeypress = (e) => {
 
-  if (e.key==="Enter"){
-    addTask();
-  }
-};
+       if (e.key === "Enter"){
+           addTask();
+       }
+    };
 
-let addEl = document.querySelector("#default-todo-panel .todo-editor > button");
-addEl.onclick =(e) => {
-  addTask();
-  };
-
+    let addEl = document.querySelector("#default-todo-panel .todo-editor > button");
+    addEl.onclick = (e) => {
+           addTask();
+    };
 }
 
 function renderTaskItems(){
-    console.log("render items");
-  let itemsEl =  document.querySelector("#default-todo-panel .todo-items");
+  console.log("render items");
+  let itemsEl =  document.querySelector("#default-todo-panel  .todo-items");
 
-  itemsEl.querySelectorAll("div").forEach((node)=>node.remove());
+  itemsEl.querySelectorAll("div").forEach((node) => node.remove());
+ 
 
 
-  for (let  i= 0; i< tasks.length; i++ ){
+  for (let i = 0; i < tasks.length; i++ ) {
       let task = tasks[i];
       let itemEl = document.createElement("div");
-      itemsEl.className = "task";
+      itemEl.className = "task";
 
 
       let doneEl = document.createElement("input");
@@ -56,18 +61,17 @@ function renderTaskItems(){
       doneEl.checked = task.done;
       if (task.done){
           itemEl.classList.add("done");
-      }else{
+      } else {
         itemEl.classList.remove("done");
       }
-      doneEl.onchange =(e) =>{
+
+      doneEl.onchange =(e) => {
            task.done = e.target.checked;
            if (task.done){
                itemEl.classList.add("done");
-           }else{
+           } else {
                itemEl.classList.remove("done");
-           }
-        
-         
+           }  
       }
       itemEl.append(doneEl);
 
@@ -75,18 +79,59 @@ function renderTaskItems(){
       titleEl.innerText = task.title;
       itemEl.append(titleEl);
 
-      let cancelEl = document.createElement("button");
-      cancelEl.innerText = "x";
-      cancelEl.onclick = () =>{
-          tasks.splice(i, 1);
-          renderTaskItems();
-      };
-      itemEl.append(cancelEl);
 
+      let ctrlbarEl = renderTaskCtrlBar(tasks,itemEl,i);
+      itemEl.append(ctrlbarEl);
       itemsEl.append(itemEl);
-
-
-  }
+   }
 }
+
+
+function renderTaskCtrlBar(tasks,itemEl,taskIdx){
+        let ctrlbarEl = document.createElement("div");
+        ctrlbarEl.className = "ctrlbar";
+        
+        let upEl = document.createElement("button");
+        if (taskIdx === 0){
+          upEl.disabled = true;
+        }
+        upEl.innerText = "1";
+        upEl.onclick = () => {
+          let t = tasks[taskIdx];
+          tasks[taskIdx] = tasks[taskIdx - 1];
+          tasks[taskIdx - 1] = t;
+          renderTaskItems();
+        };
+        ctrlbarEl.append(upEl);
+
+        let downEl = document.createElement("button");
+        if (taskIdx === tasks.length-1){
+          downEl.disabled = true;
+        }
+        downEl.innerText = "↧";
+        downEl.onclick = () => {
+          let t = tasks[taskIdx];
+          tasks[taskIdx] = tasks[taskIdx + 1];
+          tasks[taskIdx + 1] = t ;
+          renderTaskItems();
+             
+        };
+        ctrlbarEl.append(downEl);
+
+
+        let cancelEl = document.createElement("button");
+        cancelEl.innerText = "x";
+        cancelEl.onclick = () => {
+          tasks.splice(taskIdx, 1);
+          renderTaskItems();
+        };
+
+        ctrlbarEl.append(cancelEl);
+
+        return ctrlbarEl;
+
+
+    }
+
 renderEditor();
 renderTaskItems();
