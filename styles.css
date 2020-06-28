@@ -10,10 +10,12 @@ body{
      min-height: 20em;
      box-shadow: 4px 6px 6px #888;
      margin-top: 5em;
+     background-color: rgba(116, 195, 230, 0.38);
 }
 .todo-editor{
     padding: 5px 20px;
     display: flex;
+    background-color: rgba(116, 195, 230, 0.76);
 }
  .todo-editor input{
      flex-grow: 1;
@@ -53,12 +55,27 @@ body{
 
 .todo-items .ctrlbar > button:disabled:hover {
     font-weight: unset;
+    background-color: azure;
 }
 
 .todo-items .ctrlbar > button:hover{
     font-weight: bolder;
+    background-color: azure;
 }
 
  .task.done > label {
      text-decoration: line-through;
  }
+
+ .todo-items .ctrlbar > input{
+     width: 1.5em;
+     height: 1.5em;
+     margin-left: 18px;
+     background-size: 20px;
+ }
+.task.vip.ctrlbar > input {
+    width: 1.5em;
+    height: 1.5em;
+    background-size: 20px;
+}
+ 
